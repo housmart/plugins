@@ -9,7 +9,6 @@
 // client id.  See https://developers.google.com/identity/sign-in/ios/start
 // for more info.
 static NSString *const kClientIdKey = @"CLIENT_ID";
-static NSString *const kGoogleServerClientID = @"GoogleServerClientID";
 
 // These error codes must match with ones declared on Android and Dart sides.
 static NSString *const kErrorReasonSignInRequired = @"sign_in_required";
@@ -74,7 +73,6 @@ static FlutterError *getFlutterError(NSError *error) {
       if (path) {
         NSMutableDictionary *plist = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
         [GIDSignIn sharedInstance].clientID = plist[kClientIdKey];
-        [GIDSignIn sharedInstance].serverClientID = plist[kGoogleServerClientID];
         [GIDSignIn sharedInstance].scopes = call.arguments[@"scopes"];
         [GIDSignIn sharedInstance].hostedDomain = call.arguments[@"hostedDomain"];
         result(nil);
@@ -99,9 +97,6 @@ static FlutterError *getFlutterError(NSError *error) {
         [e raise];
       }
     }
-  } else if ([call.method isEqualToString:@"getServerAuthCode"]) {
-    GIDGoogleUser *currentUser = [GIDSignIn sharedInstance].currentUser;
-    result(@{@"serverAuthCode": currentUser.serverAuthCode});
   } else if ([call.method isEqualToString:@"getTokens"]) {
     GIDGoogleUser *currentUser = [GIDSignIn sharedInstance].currentUser;
     GIDAuthentication *auth = currentUser.authentication;

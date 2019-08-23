@@ -94,11 +94,6 @@ class GoogleSignInAccount implements GoogleIdentity {
     return GoogleSignInAuthentication._(response);
   }
 
-  Future<String> get serverAuthCode async {
-    final response = await GoogleSignIn.channel.invokeMapMethod<String, dynamic>('getServerAuthCode');
-    return response['serverAuthCode'];
-  }
-
   Future<Map<String, String>> get authHeaders async {
     final String token = (await authentication).accessToken;
     return <String, String>{
