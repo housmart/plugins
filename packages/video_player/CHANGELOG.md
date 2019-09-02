@@ -1,3 +1,15 @@
+## 0.10.2
+
+* **Android Only** Adds optional VideoFormat used to signal what format the plugin should try.
+
+## 0.10.1+7
+
+* Fix tests by ignoring deprecated member use.
+
+## 0.10.1+6
+
+* [iOS] Fixed a memory leak with notification observing.
+
 ## 0.10.1+5
 
 * Fix race condition while disposing the VideoController.
