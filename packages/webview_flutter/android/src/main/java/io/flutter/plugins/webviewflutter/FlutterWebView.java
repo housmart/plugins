@@ -66,10 +66,12 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
     }
     if (params.containsKey("initialUrl")) {
       String url = (String) params.get("initialUrl");
-      if (url.contains("://")) {
-        webView.loadUrl(url);
-      } else {
-        webView.loadUrl("file:///android_asset/flutter_assets/" + url);
+      if (url != null) {
+        if (url.contains("://")) {
+          webView.loadUrl(url);
+        } else {
+          webView.loadUrl("file:///android_asset/flutter_assets/" + url);
+        }
       }
     }
   }
@@ -268,7 +270,10 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
         case "allowsBack":
           // no-op "allowsBack" is only iOS.
         case "userAgent":
-          updateUserAgent((String) settings.get(key));
+          Object value = settings.get(key);
+          if (value instanceof String) {
+            updateUserAgent((String)value);
+          }
           break;
         default:
           throw new IllegalArgumentException("Unknown WebView setting: " + key);
