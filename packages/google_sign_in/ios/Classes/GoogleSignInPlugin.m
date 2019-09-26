@@ -73,6 +73,7 @@ static FlutterError *getFlutterError(NSError *error) {
       if (path) {
         NSMutableDictionary *plist = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
         [GIDSignIn sharedInstance].clientID = plist[kClientIdKey];
+        [GIDSignIn sharedInstance].serverClientID = plist[kClientIdKey];
         [GIDSignIn sharedInstance].scopes = call.arguments[@"scopes"];
         [GIDSignIn sharedInstance].hostedDomain = call.arguments[@"hostedDomain"];
         result(nil);
@@ -173,6 +174,7 @@ static FlutterError *getFlutterError(NSError *error) {
       @"email" : user.profile.email ?: [NSNull null],
       @"id" : user.userID ?: [NSNull null],
       @"photoUrl" : [photoUrl absoluteString] ?: [NSNull null],
+      @"serverAuthCode" : user.serverAuthCode ?: [NSNull null]
     }
                        error:nil];
   }
