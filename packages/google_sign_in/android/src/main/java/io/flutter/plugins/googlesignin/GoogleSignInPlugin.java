@@ -42,6 +42,7 @@ public class GoogleSignInPlugin implements MethodCallHandler {
   private static final String METHOD_SIGN_IN_SILENTLY = "signInSilently";
   private static final String METHOD_SIGN_IN = "signIn";
   private static final String METHOD_GET_TOKENS = "getTokens";
+  private static final String METHOD_GET_SERVER_AUTH_CODE = "getServerAuthCode";
   private static final String METHOD_SIGN_OUT = "signOut";
   private static final String METHOD_DISCONNECT = "disconnect";
   private static final String METHOD_IS_SIGNED_IN = "isSignedIn";
@@ -81,6 +82,10 @@ public class GoogleSignInPlugin implements MethodCallHandler {
         String email = call.argument("email");
         boolean shouldRecoverAuth = call.argument("shouldRecoverAuth");
         delegate.getTokens(result, email, shouldRecoverAuth);
+        break;
+
+      case METHOD_GET_SERVER_AUTH_CODE:
+        delegate.getServerAuthCode(result);
         break;
 
       case METHOD_SIGN_OUT:
@@ -141,6 +146,8 @@ public class GoogleSignInPlugin implements MethodCallHandler {
      * new one.
      */
     public void clearAuthCache(final Result result, final String token);
+
+    public void getServerAuthCode(final Result result);
 
     /**
      * Signs the user out. Their credentials may remain valid, meaning they'll be able to silently
@@ -239,6 +246,7 @@ public class GoogleSignInPlugin implements MethodCallHandler {
                     "default_web_client_id", "string", registrar.context().getPackageName());
         if (clientIdIdentifier != 0) {
           optionsBuilder.requestIdToken(registrar.context().getString(clientIdIdentifier));
+          optionsBuilder.requestServerAuthCode(registrar.context().getString(clientIdIdentifier));
         }
         for (String scope : requestedScopes) {
           optionsBuilder.requestScopes(new Scope(scope));
@@ -494,6 +502,14 @@ public class GoogleSignInPlugin implements MethodCallHandler {
               }
             }
           });
+    }
+
+    public void getServerAuthCode(final Result result) {
+      GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(registrar.context());
+      String authCode = account.getServerAuthCode();
+      Map<String, Object> response = new HashMap<>();
+      response.put("serverAuthCode", authCode);
+      result.success(response);
     }
 
     @Override
