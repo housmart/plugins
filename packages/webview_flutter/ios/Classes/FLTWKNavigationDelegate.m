@@ -59,4 +59,24 @@
 - (void)webView:(WKWebView*)webView didFinishNavigation:(WKNavigation*)navigation {
   [_methodChannel invokeMethod:@"onPageFinished" arguments:@{@"url" : webView.URL.absoluteString}];
 }
+
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation
+      withError:(NSError *)error {
+    if (error.code == NSURLErrorCancelled) {
+        NSURL *url = error.userInfo[@"NSErrorFailingURLKey"];
+        if (url) {
+            for (WKBackForwardListItem *item in webView.backForwardList.backList) {
+                if ([item.URL isEqual:url]) {
+                    [webView goToBackForwardListItem: item];
+                    return;
+                }
+            }
+            WKBackForwardListItem *item = webView.backForwardList.currentItem;
+            if(item && [item.URL isEqual:url]) {
+                [webView goToBackForwardListItem: item];
+            }
+        }
+    }
+}
+
 @end
