@@ -8,13 +8,15 @@
 #import "JavaScriptChannelHandler.h"
 
 @implementation FLTWebViewFactory {
+  NSObject<FlutterPluginRegistrar>* _registrar;
   NSObject<FlutterBinaryMessenger>* _messenger;
 }
 
-- (instancetype)initWithMessenger:(NSObject<FlutterBinaryMessenger>*)messenger {
+- (instancetype)initWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   self = [super init];
   if (self) {
-    _messenger = messenger;
+    _registrar = registrar;
+    _messenger = registrar.messenger;
   }
   return self;
 }
@@ -29,7 +31,7 @@
   FLTWebViewController* webviewController = [[FLTWebViewController alloc] initWithFrame:frame
                                                                          viewIdentifier:viewId
                                                                               arguments:args
-                                                                        binaryMessenger:_messenger];
+                                                                        registrar:_registrar];
   return webviewController;
 }
 
@@ -66,17 +68,19 @@
   NSMutableSet* _javaScriptChannelNames;
   FLTWKNavigationDelegate* _navigationDelegate;
   FLTWKProgressionDelegate* _progressionDelegate;
+  NSObject<FlutterPluginRegistrar>* _registrar;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
                viewIdentifier:(int64_t)viewId
                     arguments:(id _Nullable)args
-              binaryMessenger:(NSObject<FlutterBinaryMessenger>*)messenger {
+              registrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   if (self = [super init]) {
     _viewId = viewId;
+    _registrar = registrar;
 
     NSString* channelName = [NSString stringWithFormat:@"plugins.flutter.io/webview_%lld", viewId];
-    _channel = [FlutterMethodChannel methodChannelWithName:channelName binaryMessenger:messenger];
+    _channel = [FlutterMethodChannel methodChannelWithName:channelName binaryMessenger:registrar.messenger];
     _javaScriptChannelNames = [[NSMutableSet alloc] init];
 
     WKUserContentController* userContentController = [[WKUserContentController alloc] init];
