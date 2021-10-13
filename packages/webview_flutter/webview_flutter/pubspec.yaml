@@ -17,11 +17,26 @@ flutter:
         default_package: webview_flutter_wkwebview
 
 dependencies:
+  webview_flutter_android:
+    #    path: ../flutter_plugins/packages/webview_flutter
+    git:
+      url: git://github.com/housmart/plugins.git
+      path: packages/webview_flutter/webview_flutter_android
+      ref: upgraded
+  webview_flutter_platform_interface:
+    #    path: ../flutter_plugins/packages/webview_flutter
+    git:
+      url: git://github.com/housmart/plugins.git
+      path: packages/webview_flutter/webview_flutter_platform_interface
+      ref: upgraded
+  webview_flutter_wkwebview:
+    #    path: ../flutter_plugins/packages/webview_flutter
+    git:
+      url: git://github.com/housmart/plugins.git
+      path: packages/webview_flutter/webview_flutter_wkwebview
+      ref: upgraded
   flutter:
     sdk: flutter
-  webview_flutter_platform_interface: ^1.0.0
-  webview_flutter_android: ^2.0.13
-  webview_flutter_wkwebview: ^2.0.13
 
 dev_dependencies:
   flutter_driver:
