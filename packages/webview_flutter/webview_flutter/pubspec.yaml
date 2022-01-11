@@ -22,19 +22,19 @@ dependencies:
     git:
       url: https://github.com/housmart/plugins.git
       path: packages/webview_flutter/webview_flutter_android
-      ref: upgraded
+      ref: kawlu_flutter3
   webview_flutter_platform_interface:
     #    path: ../flutter_plugins/packages/webview_flutter
     git:
       url: https://github.com/housmart/plugins.git
       path: packages/webview_flutter/webview_flutter_platform_interface
-      ref: upgraded
+      ref: kawlu_flutter3
   webview_flutter_wkwebview:
     #    path: ../flutter_plugins/packages/webview_flutter
     git:
       url: https://github.com/housmart/plugins.git
       path: packages/webview_flutter/webview_flutter_wkwebview
-      ref: upgraded
+      ref: kawlu_flutter3
   flutter:
     sdk: flutter
 

@@ -24,7 +24,7 @@ dependencies:
     git:
       url: https://github.com/housmart/plugins.git
       path: packages/webview_flutter/webview_flutter_platform_interface
-      ref: upgraded
+      ref: kawlu_flutter3
 
 dev_dependencies:
   flutter_driver:
